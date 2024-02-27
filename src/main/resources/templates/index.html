@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+    <link rel="shortcut icon" href="https://cdn-icons-png.flaticon.com/512/7656/7656409.png">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <title>Inventory Management System</title>
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-md navbar-light bg-success">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#"><i class="fa fa-align-center" aria-hidden="true"></i>  Inventory</a>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2 bg-light">
+            <div class="bg-light min-vh-100">
+                <div class="sidebar-sticky">
+                    <ul class="nav flex-column nav-pills">
+                        <li class="nav-item p-2">
+                            <a class="nav-link text-success mt-5" data-bs-toggle="pill" href="#home"><i
+                                    class="fa fa-home"></i>  Home</a>
+                        </li>
+                        <li class="nav-item p-2">
+                            <a class="nav-link text-success mt-2" data-bs-toggle="pill" href="#computers"><i
+                                    class="fa fa-database"></i>  Computers</a>
+                        </li>
+                        <li class="nav-item p-2">
+                            <a class="nav-link text-success mt-2" data-bs-toggle="pill" href="#addComputer"><i
+                                    class="fa fa-plus"></i>  Add Computer</a>
+                        </li>
+                        <li class="nav-item p-2">
+                            <a class="nav-link text-success mt-2" data-bs-toggle="pill" href="#searchComputer"><i
+                                    class="fa fa-search"></i>  Search Computer</a>
+                        </li>
+                        <li class="nav-item p-2">
+                            <a class="nav-link text-success mt-2" data-bs-toggle="pill" href="#removeComputer"><i
+                                    class="fa fa-trash"></i>  Remove Computer</a>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-10">
+            <div class="content tab-content">
+                <div class="tab-pane fade show active" id="home">
+                    <h5 class="text-left text-success p-3">Welcome to the Inventory Management System ( Report )
+                        </h5>
+                        <br>
+                        <div class="row p-2">
+                            <div class="col-sm-6">
+                                <p class="p-2 text-left">Number of Computers & Their Category
+                                </p>
+                                <div style="margin: auto;">
+                                    <canvas id="maxcomputerChart"></canvas>
+                                </div>
+                                <script th:inline="javascript">
+                                    var computers = /*[[${computers}]]*/ [];
+
+                                    var data = {};
+                                    computers.forEach(function (computer) {
+                                        var key = computer.marca.nombre;
+                                        data[key] = (data[key] || 0) + 1;
+                                    });
+
+                                    var labels = Object.keys(data);
+                                    var values = Object.values(data);
+
+                                    // Generate an array of dynamic colors
+                                    var dynamicColors = [];
+                                    for (var i = 0; i < labels.length; i++) {
+                                        var r = Math.floor(Math.random() * 255);
+                                        var g = Math.floor(Math.random() * 255);
+                                        var b = Math.floor(Math.random() * 255);
+                                        dynamicColors.push('rgba(' + r + ',' + g + ',' + b + ', 0.6)');
+                                    }
+
+                                    var ctx = document.getElementById('maxcomputerChart').getContext('2d');
+                                    var computerChart = new Chart(ctx, {
+                                        type: 'bar',
+                                        data: {
+                                            labels: labels,
+                                            datasets: [{
+                                                label: 'Computadoras por Marca',
+                                                data: values,
+                                                backgroundColor: dynamicColors,
+                                                borderColor: dynamicColors.map(color => color.replace(', 0.6)', ', 1)')),
+                                                borderWidth: 2
+                                            }]
+                                        },
+                                        options: {
+                                            scales: {
+                                                x: {
+                                                    title: {
+                                                        display: true,
+                                                        text: 'Marca'
+                                                    }
+                                                },
+                                                y: {
+                                                    beginAtZero: true,
+                                                    title: {
+                                                        display: true,
+                                                        text: 'Cantidad de Computadoras'
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    });
+                                </script>
+                            </div>
+                            <div class="col-sm-6">
+                                <p class="p-2 text-left"> Number of Computers & Their OS
+                                </p>
+                                <div style="margin: auto;">
+                                    <canvas id="mincomputerChart"></canvas>
+                                </div>
+                                <script th:inline="javascript">
+                                    var computers = /*[[${computers}]]*/ [];
+
+                                    var data = {};
+                                    computers.forEach(function (computer) {
+                                        var key = computer.os.nombre;
+                                        data[key] = (data[key] || 0) + 1;
+                                    });
+
+                                    var labels = Object.keys(data);
+                                    var values = Object.values(data);
+
+                                    // Generate an array of dynamic colors
+                                    var dynamicColors = [];
+                                    for (var i = 0; i < labels.length; i++) {
+                                        var r = Math.floor(Math.random() * 255);
+                                        var g = Math.floor(Math.random() * 255);
+                                        var b = Math.floor(Math.random() * 255);
+                                        dynamicColors.push('rgba(' + r + ',' + g + ',' + b + ', 0.6)');
+                                    }
+
+                                    var ctx = document.getElementById('mincomputerChart').getContext('2d');
+                                    var computerChart = new Chart(ctx, {
+                                        type: 'bar',
+                                        data: {
+                                            labels: labels,
+                                            datasets: [{
+                                                label: 'Computadoras por OS',
+                                                data: values,
+                                                backgroundColor: dynamicColors,
+                                                borderColor: dynamicColors.map(color => color.replace(', 0.6)', ', 1)')),
+                                                borderWidth: 2
+                                            }]
+                                        },
+                                        options: {
+                                            scales: {
+                                                x: {
+                                                    title: {
+                                                        display: true,
+                                                        text: 'OS'
+                                                    }
+                                                },
+                                                y: {
+                                                    beginAtZero: true,
+                                                    title: {
+                                                        display: true,
+                                                        text: 'Cantidad de Computadoras'
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    });
+                                </script>
+                            </div>
+                        </div>
+                </div>
+                <div class="tab-pane fade" id="computers">
+                    <h4 class="text-success p-2">All Computers Data</h4>
+                    <div class="table-responsive mt-5">
+                        <table class="table table-hover table-bordered">
+                            <thead class="bg-success text-light">
+                            <th>Nro</th>
+                            <th>ID</th>
+                            <th>Tag</th>
+                            <th>Marca</th>
+                            <th>Model</th>
+                            <th>User</th>
+                            <th>OS</th>
+                            <th>RAM</th>
+                            <th>Disco</th>
+                            <th>CPU</th>
+                            <th>Fecha de Compra</th>
+                            </thead>
+                            <tbody>
+                            <tr th:each="computer, index : ${computers}">
+                                <td th:text="${index.index + 1}"></td>
+                                <td th:text="${computer.idComputer}"></td>
+                                <td th:text="${computer.tag}"></td>
+                                <td th:text="${computer.marca.nombre}"></td>
+                                <td th:text="${computer.model}"></td>
+                                <td th:text="${computer.getUsuario.nombreUsuario}"></td>
+                                <td th:text="${computer.os.nombre}"></td>
+                                <td th:text="${computer.ram}"></td>
+                                <td th:text="${computer.disco}"></td>
+                                <td th:text="${computer.cpu}"></td>
+                                <td th:text="${computer.fecha_compra}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="addComputer">
+                    <h4 class="text-success p-2">Add New Computer</h4>
+                    <br>
+                    <div class="container">
+                        <form class="p-1" th:action="@{/newComputer}" th:object="${computer}" method="post">
+                            <div class="row p-4 justify-content-center">
+                                <div th:if=
+                                             "${insertSuccess}">
+                                    <div class="alert alert-success alert-dismissible fade show p-2 mt-1 mb-3" role="alert">
+                                        <strong>Computer Added successfully!
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        </strong>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3 offset-sm-1 p-2">
+                                    <label>Tag</label>
+                                    <input type="text" th:field="*{tag}" class="form-control mt-3" required placeholder="Computer Tag">
+                                </div>
+                                <div class="col-sm-3 offset-sm-1 p-2">
+                                    <label>Marca</label>
+                                    <select th:field="*{marca}" class="form-select mt-3" required>
+                                        <option value="">Select Marca</option>
+                                        <option th:each="marca : ${marcas}" th:value="${marca.id}" th:text="${marca.nombre}"></option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-3 offset-sm-1 p-2">
+                                    <label>Model</label>
+                                    <input type="text" th:field="*{model}" class="form-control mt-3" required placeholder="Computer Model">
+                                </div>
+                            </div>
+                            <div class="row p-4 justify-content-center">
+                                <div class="col-sm-3 offset-sm-1 p-2">
+                                    <label>Usuario</label>
+                                    <select th:field="*{usuario}" class="form-select mt-3" required>
+                                        <option value="">Select User</option>
+                                        <!-- Iterar sobre la lista de usuarios y generar opciones -->
+                                        <option th:each="usuario : ${usuarios}" th:value="${usuario.id}" th:text="${usuario.nombreUsuario}"></option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-3 offset-sm-1 p-2">
+                                    <label>Operating System</label>
+                                    <select th:field="*{os}" class="form-select mt-3" required>
+                                        <option value="">Select OS</option>
+                                        <option th:each="os : ${oss}" th:value="${os.id}" th:text="${os.nombre}"></option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-3 offset-sm-1 p-2">
+                                    <label>Ram</label>
+                                    <input type="text" th:field="*{ram}" class="form-control mt-3" required placeholder="Computer Ram">
+                                </div>
+                            </div>
+                            <div class="row p-4 justify-content-center">
+                                <div class="col-sm-3 offset-sm-1 p-2">
+                                    <label>Disco</label>
+                                    <input type="text" th:field="*{disco}" class="form-control mt-3" required placeholder="Computer Disco">
+                                </div>
+                                <div class="col-sm-3 offset-sm-1 p-2">
+                                    <label>CPU</label>
+                                    <input type="text" th:field="*{cpu}" class="form-control mt-3" required placeholder="Computer CPU">
+                                </div>
+                                <div class="col-sm-3 offset-sm-1 p-2">
+                                    <label>Fecha de Compra</label>
+                                    <input type="date" th:field="*{fecha_compra}" class="form-control mt-3" required>
+                                </div>
+                            </div>
+                            <br>
+                            <button type="submit" class="btn btn-success text-light" style="margin-left: 7rem;">Add Computer</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="searchComputer">
+                    <h4 class="text-success p-2">Search Computer Details</h4>
+                    <br>
+                    <div class="container p-1">
+                        <form th:action="@{/searchComputer}" method="post" class="p-2">
+                            <div class="row">
+                                <div class="col-sm-9 offset-sm-1">
+                                    <input type="text" name="id" class="form-control" required
+                                           placeholder="Computer ID"
+                                           style="text-align: center; border-radius: 30px; border: 2px solid green;">
+                                </div>
+
+                                <div class="col-sm-2">
+                                    <button type="submit" class="btn btn-success"
+                                            style="border-radius: 20px;">Search Computer</button>
+                                </div>
+                            </div>
+                            <br>
+                            <div th:if="${foundComputer}">
+                                <div class="table-responsive mt-4">
+                                    <table class="table table-hover table-bordered">
+                                        <thead class="bg-success text-light">
+                                        <th>ID</th>
+                                        <th>Tag</th>
+                                        <th>Marca</th>
+                                        <th>Model</th>
+                                        <th>Usuario</th>
+                                        <th>OS</th>
+                                        <th>RAM</th>
+                                        <th>Disco</th>
+                                        <th>CPU</th>
+                                        <th>Fecha de Compra</th>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td th:text="${foundComputer.get().idComputer}"></td>
+                                            <td th:text="${foundComputer.get().tag}"></td>
+                                            <td th:text="${foundComputer.get().marca.nombre}"></td>
+                                            <td th:text="${foundComputer.get().model}"></td>
+                                            <td th:text="${foundComputer.get().usuario.nombreUsuario}"></td>
+                                            <td th:text="${foundComputer.get().os.nombre}"></td>
+                                            <td th:text="${foundComputer.get().ram}"></td>
+                                            <td th:text="${foundComputer.get().disco}"></td>
+                                            <td th:text="${foundComputer.get().cpu}"></td>
+                                            <td th:text="${foundComputer.get().fecha_compra}"></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div th:if="${notFound}" class="mt-3">
+                                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                    <strong>Computer Details Not Found!</strong>
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                                aria-label="Close"></button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="removeComputer">
+                    <h4 class="text-success p-2">Remove Existing Computer</h4>
+                    <br>
+                    <div class="container p-1">
+                        <form th:action="@{/deleteComputer}" method="post" class="p-2">
+                            <div class="row">
+                                <div class="col-sm-9 offset-sm-1">
+                                    <input type="text" name="id" class="form-control" required
+                                           placeholder="Computer ID"
+                                           style="text-align: center; border-radius: 30px; border: 2px solid green;">
+                                </div>
+                                <div class="col-sm-2">
+                                    <button type="submit" class="btn btn-success"
+                                            style="border-radius: 20px;">Delete Computer</button>
+                                </div>
+                            </div>
+                            <br>
+                            <div th:if="${deleteSuccess}">
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <strong>Computer deleted successfully!</strong>
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                                aria-label="Close"></button>
+                                </div>
+                            </div>
+
+                            <div th:if="${notFound}">
+                                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                    <strong>Computer not found. Please check the ID and try again.</strong>
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                                aria-label="Close"></button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js">
+</script>
+</body>
+
+</html>
