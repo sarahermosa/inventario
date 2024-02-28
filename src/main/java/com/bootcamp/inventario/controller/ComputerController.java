@@ -11,10 +11,7 @@ import com.bootcamp.inventario.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
@@ -54,6 +51,32 @@ public class ComputerController {
         redirectAttributes.addFlashAttribute("insertSuccess", true);
         return "redirect:/";
     }
+
+    @GetMapping("editComputer/{id}")
+    public String editComputer(@PathVariable("id") Long id, Model model){
+        Optional<Computer> computer = computerService.getComputerById(id);
+        List<Marca> marcasList = marcaService.getAllMarcas();
+        List<Usuario> usuariosList = usuarioService.getAllUsuarios();
+        List<OS> ossList = osService.getAllOSs();
+
+        if(computer.isPresent()){
+            model.addAttribute("computer", computer);
+            model.addAttribute("marcas", marcasList);
+            model.addAttribute("usuarios", usuariosList);
+            model.addAttribute("oss", ossList);
+            return "editForm";
+        } else {
+            return "redirect:/";
+        }
+    }
+
+    @PostMapping("/editComputer")
+    public String editComputer(@ModelAttribute("computer") Computer computer, RedirectAttributes redirectAttributes) {
+        computerService.editComputer(computer);
+        redirectAttributes.addFlashAttribute("editSuccess", true);
+        return "redirect:/";
+    }
+
 
     @PostMapping("/searchComputer")
     public String searchComputer(@RequestParam(name = "id") Long id, RedirectAttributes redirectAttributes,

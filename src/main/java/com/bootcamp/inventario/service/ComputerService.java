@@ -22,6 +22,24 @@ public class ComputerService {
         computerRepository.save(computer);
     }
 
+    public void editComputer(Computer computer) {
+        Optional<Computer> existingComputerOptional = computerRepository.findById(computer.getIdComputer());
+        if (existingComputerOptional.isPresent()) {
+            Computer existingComputer = existingComputerOptional.get();
+            existingComputer.setTag(computer.getTag());
+            existingComputer.setMarca(computer.getMarca());
+            existingComputer.setModel(computer.getModel());
+            existingComputer.setUsuario(computer.getUsuario());
+            existingComputer.setOs(computer.getOs());
+            existingComputer.setRam(computer.getRam());
+            existingComputer.setDisco(computer.getDisco());
+            existingComputer.setCpu(computer.getCpu());
+            existingComputer.setFecha_compra(computer.getFecha_compra());
+
+            computerRepository.save(existingComputer);
+        }
+    }
+
     public Optional<Computer> getComputerById(Long id) {
         return computerRepository.findById(id);
     }

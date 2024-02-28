@@ -43,6 +43,11 @@ td {
     font-size: 13px;
 }
 
-label {
-    font-family: 'Noto Serif', serif;
+.centrado {
+    text-align: center;
 }
+
+label {
+    font-family: 'helvetica', serif;
+}
+

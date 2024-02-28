@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+    <link rel="shortcut icon" href="https://cdn-icons-png.flaticon.com/512/7656/7656409.png">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <title>Inventory Management System</title>
+</head>
+
+<body>
+
+<div th:replace="navBar.html :: navBar"></div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2 bg-light">
+            <div class="bg-light min-vh-100">
+                <div th:replace="sideBar.html :: sideBar"></div>
+            </div>
+        </div>
+
+        <div class="col-md-10">
+
+            <div class="tab-pane" id="editComputer">
+                <h4 class="text-success p-2">Edit Computer</h4>
+                <br>
+                <div class="container">
+                    <form class="p-1" th:action="@{/editComputer}" th:object="${computer}" method="post">
+                        <div class="row p-4 justify-content-center">
+                            <div th:if=
+                                         "${editSuccess}">
+                                <div class="alert alert-success alert-dismissible fade show p-2 mt-1 mb-3" role="alert">
+                                    <strong>Computer Edited successfully!
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </strong>
+                                </div>
+                            </div>
+                            <div class="col-sm-3 offset-sm-1 p-2">
+                                <label>Tag</label>
+                                <input type="text" th:field="*{tag}" class="form-control mt-3" required placeholder="Computer Tag">
+                                <input type="hidden" th:field="*{idComputer}">
+
+                            </div>
+                            <div class="col-sm-3 offset-sm-1 p-2">
+                                <label>Marca</label>
+                                <select th:field="*{marca}" class="form-select mt-3" required>
+                                    <option value="">Select Marca</option>
+                                    <option th:each="marca : ${marcas}" th:value="${marca.id}" th:text="${marca.nombre}"></option>
+                                </select>
+                            </div>
+                            <div class="col-sm-3 offset-sm-1 p-2">
+                                <label>Model</label>
+                                <input type="text" th:field="*{model}" class="form-control mt-3" required placeholder="Computer Model">
+                            </div>
+                        </div>
+                        <div class="row p-4 justify-content-center">
+                            <div class="col-sm-3 offset-sm-1 p-2">
+                                <label>Usuario</label>
+                                <select th:field="*{usuario}" class="form-select mt-3" required>
+                                    <option value="">Select User</option>
+                                    <!-- Iterar sobre la lista de usuarios y generar opciones -->
+                                    <option th:each="usuario : ${usuarios}" th:value="${usuario.id}" th:text="${usuario.nombreUsuario}"></option>
+                                </select>
+                            </div>
+                            <div class="col-sm-3 offset-sm-1 p-2">
+                                <label>Operating System</label>
+                                <select th:field="*{os}" class="form-select mt-3" required>
+                                    <option value="">Select OS</option>
+                                    <option th:each="os : ${oss}" th:value="${os.id}" th:text="${os.nombre}"></option>
+                                </select>
+                            </div>
+                            <div class="col-sm-3 offset-sm-1 p-2">
+                                <label>Ram</label>
+                                <input type="text" th:field="*{ram}" class="form-control mt-3" required placeholder="Computer Ram">
+                            </div>
+                        </div>
+                        <div class="row p-4 justify-content-center">
+                            <div class="col-sm-3 offset-sm-1 p-2">
+                                <label>Disco</label>
+                                <input type="text" th:field="*{disco}" class="form-control mt-3" required placeholder="Computer Disco">
+                            </div>
+                            <div class="col-sm-3 offset-sm-1 p-2">
+                                <label>CPU</label>
+                                <input type="text" th:field="*{cpu}" class="form-control mt-3" required placeholder="Computer CPU">
+                            </div>
+                            <div class="col-sm-3 offset-sm-1 p-2">
+                                <label>Fecha de Compra</label>
+                                <input type="date" th:field="*{fecha_compra}" class="form-control mt-3" required>
+                            </div>
+                        </div>
+                        <br>
+                        <a href="/" class="btn btn-success text-light" style="margin-left: 7rem;">Go back</a>
+                        <button type="submit" class="btn btn-success text-light" style="margin-left: 1rem;">Save</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>

@@ -14,41 +14,13 @@
 
 <body>
 
-<nav class="navbar navbar-expand-md navbar-light bg-success">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#"><i class="fa fa-align-center" aria-hidden="true"></i>  Inventory</a>
-    </div>
-</nav>
+<div th:replace="navBar.html :: navBar"></div>
 
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-2 bg-light">
             <div class="bg-light min-vh-100">
-                <div class="sidebar-sticky">
-                    <ul class="nav flex-column nav-pills">
-                        <li class="nav-item p-2">
-                            <a class="nav-link text-success mt-5" data-bs-toggle="pill" href="#home"><i
-                                    class="fa fa-home"></i>  Home</a>
-                        </li>
-                        <li class="nav-item p-2">
-                            <a class="nav-link text-success mt-2" data-bs-toggle="pill" href="#computers"><i
-                                    class="fa fa-database"></i>  Computers</a>
-                        </li>
-                        <li class="nav-item p-2">
-                            <a class="nav-link text-success mt-2" data-bs-toggle="pill" href="#addComputer"><i
-                                    class="fa fa-plus"></i>  Add Computer</a>
-                        </li>
-                        <li class="nav-item p-2">
-                            <a class="nav-link text-success mt-2" data-bs-toggle="pill" href="#searchComputer"><i
-                                    class="fa fa-search"></i>  Search Computer</a>
-                        </li>
-                        <li class="nav-item p-2">
-                            <a class="nav-link text-success mt-2" data-bs-toggle="pill" href="#removeComputer"><i
-                                    class="fa fa-trash"></i>  Remove Computer</a>
-                        </li>
-
-                    </ul>
-                </div>
+                <div th:replace="sideBar.html :: sideBar"></div>
             </div>
         </div>
 
@@ -197,6 +169,7 @@
                             <th>Disco</th>
                             <th>CPU</th>
                             <th>Fecha de Compra</th>
+                            <th></th>
                             </thead>
                             <tbody>
                             <tr th:each="computer, index : ${computers}">
@@ -210,7 +183,15 @@
                                 <td th:text="${computer.ram}"></td>
                                 <td th:text="${computer.disco}"></td>
                                 <td th:text="${computer.cpu}"></td>
-                                <td th:text="${computer.fecha_compra}"></td>
+                                <td th:text="${computer.fecha_compra}" class="centrado"></td>
+                                <td class="centrado">
+<!--                                <button type="submit" class="btn btn-outline-dark" th:action="@{/editComputer/${computer.idComputer}}"> <i class="fa fa-edit"></i>-->
+<!--                                    </button>-->
+                                    <a th:href="@{/editComputer/{id}(id=${computer.idComputer})}" class="btn btn-outline-dark">
+                                        <i class="fa fa-edit"></i>
+                                    </a>
+                                </td>
+
                             </tr>
                             </tbody>
                         </table>
