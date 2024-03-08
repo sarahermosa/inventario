@@ -1,0 +1,125 @@
+{
+	"info": {
+		"_postman_id": "a969645e-ca5a-4cdc-9f98-d4902b37d243",
+		"name": "InventarioAPI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19210429"
+	},
+	"item": [
+		{
+			"name": "ListComputers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/computers",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"computers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ComputerByID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/computers/17",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"computers",
+						"17"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AddComputer",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\n        \"tag\": \"000825\",\n        \"marca\": {\n            \"id\": 2,\n            \"nombre\": \"Dell\"\n        },\n        \"model\": \"Latitude 7455\",\n        \"usuario\": {\n            \"id\": 3,\n            \"nombreUsuario\": \"Cecilia Ruiz Diaz\",\n            \"ocupation\": \"Soporte\"\n        },\n        \"os\": {\n            \"id\": 1,\n            \"nombre\": \"Windows\"\n        },\n        \"ram\": \"16GB\",\n        \"disco\": \"500GB NVME\",\n        \"cpu\": \"Intel(R) Core(TM) i5-10310U CPU @ 1.70GHz\",\n        \"fecha_compra\": \"2021-01-01T03:00:00.000+00:00\"\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/newComputer",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"newComputer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "EditComputer",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\n        \"tag\": \"000826\",\n        \"marca\": {\n            \"id\": 2,\n            \"nombre\": \"Dell\"\n        },\n        \"model\": \"Latitude 7455\",\n        \"usuario\": {\n            \"id\": 3,\n            \"nombreUsuario\": \"Cecilia Ruiz Diaz\",\n            \"ocupation\": \"Soporte\"\n        },\n        \"os\": {\n            \"id\": 1,\n            \"nombre\": \"Windows\"\n        },\n        \"ram\": \"20GB\",\n        \"disco\": \"500GB NVME\",\n        \"cpu\": \"Intel(R) Core(TM) i5-10310U CPU @ 1.70GHz\",\n        \"fecha_compra\": \"2021-01-01T03:00:00.000+00:00\"\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/editComputer/17",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"editComputer",
+						"17"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteComputer",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/deleteComputer/16",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"deleteComputer",
+						"16"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

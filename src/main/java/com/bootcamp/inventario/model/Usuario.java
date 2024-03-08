@@ -17,5 +17,7 @@ public class Usuario {
 
     private String nombreUsuario;
 
+    private String ocupation;
+
     // Constructor, getters y setters
 }
