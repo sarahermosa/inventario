@@ -11,7 +11,7 @@
 	<groupId>com.bootcamp</groupId>
 	<artifactId>inventario</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>inventario</name>
 	<description>Proyecto de inventario de equipos</description>
 
